@@ -8,17 +8,9 @@ import (
 	"os"
 	"strings"
 
-	yt "github.com/mchaynes/yamltube/youtube"
+	yt "github.com/mchaynes/yamltube-bin/youtube"
 	"google.golang.org/api/youtube/v3"
 	"gopkg.in/yaml.v3"
-)
-
-const (
-	EnvVarAppCreds     = "GOOGLE_APPLICATION_CREDENTIALS"
-	EnvVarClientSecret = "GOOGLE_CLIENT_SECRET"
-
-	FileAppCreds     = "./application_credentials.json"
-	FileClientSecret = "./client_secret.json"
 )
 
 func main() {
@@ -28,7 +20,9 @@ func main() {
 }
 
 type YamlTube struct {
-	Playlists []Playlist `yaml:"playlists"`
+	YouTube struct {
+		Playlists []Playlist `yaml:"playlists"`
+	} `yaml:"youtube"`
 }
 
 type Playlist struct {
@@ -72,7 +66,7 @@ func run() error {
 	}
 	fmt.Printf("Got %d playlists\n", len(playlists))
 
-	expectedPlaylists := toMap(yamltube.Playlists, func(p Playlist) string { return strings.ToLower(p.Title) })
+	expectedPlaylists := toMap(yamltube.YouTube.Playlists, func(p Playlist) string { return strings.ToLower(p.Title) })
 	gotPlaylists := toMap(playlists, func(p *youtube.Playlist) string { return strings.ToLower(p.Snippet.Title) })
 
 	for title, ep := range expectedPlaylists {

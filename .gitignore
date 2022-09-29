@@ -2,4 +2,6 @@ client_secret.json
 application_credentials.json
 verify
 .DS_Store
-yamltube
+yamltube-bin
+
+dist/
