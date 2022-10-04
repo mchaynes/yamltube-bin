@@ -96,7 +96,14 @@ func run() error {
 			return err
 		}
 		result, err := service.SyncPlaylist(ctx, playlist.Id, ids)
-		fmt.Printf("Synchronized %q. Inserted %d, Deleted %d.\n", playlist.Snippet.Title, len(result.Inserts), len(result.Deletes))
+		playlistLink := formatLink(playlist.Id, ids[0])
+		fmt.Printf(
+			"Synchronized %q (%s). Inserted %d, Deleted %d.\n",
+			playlist.Snippet.Title,
+			playlistLink,
+			len(result.Inserts),
+			len(result.Deletes),
+		)
 		if err != nil {
 			return err
 		}
@@ -110,4 +117,8 @@ func toMap[T any](arr []T, keyExtracter func(t T) string) map[string]T {
 		m[keyExtracter(t)] = t
 	}
 	return m
+}
+
+func formatLink(playlistId string, firstVideoId string) string {
+	return fmt.Sprintf("https://youtube.com/watch?v=%s&list=%s", firstVideoId, playlistId)
 }
