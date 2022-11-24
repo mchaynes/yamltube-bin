@@ -36,5 +36,3 @@ spotify:
         # or
         - isrc: USIR10210955 # https://www.isrcfinder.com/
 ```
-
-It would also be super cool to be able to create Apple, YouTube, Tidal(?), playlists as well.
